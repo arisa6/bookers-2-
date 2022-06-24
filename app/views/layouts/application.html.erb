@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Bookers2</title>
+    <title>Bookers2Ver2</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
@@ -11,6 +11,40 @@
   </head>
 
   <body>
+    
+    <% if flash[:notice] %>
+     <div class="notification is-info">
+      <p class="notice"><%= notice %></p>
+      </div>
+    <% end %>
+    
+    <% if flash[:alert] %>
+     <div class="notification is-info">
+      <p class="alert"><%= alert %></p>
+     </div>
+    <% end %>  
+    
+    
+  
+   <div class="container">
+    <nav class="navbar navbar-expand-md navbar-dark">
+      <%= link_to "Bookers", root_path %>
+      
+      <% if user_signed_in? %>
+      <ul class="nav navbar-nav navbar-right">
+        <%= link_to "Home", users_path(@user) %>
+        <%= link_to "User", users_path %>
+        <%= link_to "Books", books_path %>
+        <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+      <% else %>         
+        <%= link_to "Home", "/" %>
+        <%= link_to "Sign up", new_user_registration_path %>
+        <%= link_to "Login", new_user_session_path %>
+      <% end %>
+      </ul>
+      
+    </nav>
     <%= yield %>
+   </div>
   </body>
 </html>
