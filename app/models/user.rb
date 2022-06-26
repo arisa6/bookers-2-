@@ -8,15 +8,17 @@ class User < ApplicationRecord
 
    validates :name, presence: true,length: {in: 2..20}
    validates :introduction,length: { maximum: 50}
+   validates :name, uniqueness: true
+ 
 
-   attachment :profile_image
- # deviseでemailを不必要にする
-   def email_required?
-    false
-   end
-   def email_changed?
-    false
-   end
-
-
+   has_one_attached :profile_image
+   
+   def get_profile_image(width, height)
+    unless profile_image.attached?
+    file_path = Rails.root.join('app/assets/images/sample-author1.jpg')
+    profile_image.attach(io: File.open(file_path), filename: 'default-image.jpg', content_type: 'image/jpeg')
+  end
+  profile_image.variant(resize_to_limit: [width, height]).processed
+end
+   
 end

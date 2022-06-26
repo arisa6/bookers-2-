@@ -4,17 +4,16 @@ class UsersController < ApplicationController
   before_action :ensure_current_user, {only: [:edit,:update,:destroy]}
      #ログインユーザー以外の情報を遷移しようとした時に制限をかける
      
-    def new
-      @book = Book.new
-    end
+
 
 	  def show
-	    @book = Book.new
+	  @book = Book.new
       @user = User.find(params[:id])
       @books = @user.books
     end
 
     def new
+      @book = Book.new
       @user = User.new(user_params)
         if @user.save
          redirect_to  user_path(current_user.id)#成功の場合
@@ -28,14 +27,26 @@ class UsersController < ApplicationController
     end
    
     def index
-       @users =User.all
+       @users = User.all
        @books = Book.all
        @book = Book.new
        @user = current_user
     end
-
-
-
+    
+    def create
+        @user = current_user
+		@book = Book.new(book_params)
+        @book.user_id = (current_user.id)
+	    if @book.save
+        flash[:notice] = "You have creatad book successfully."
+		redirect_to  book_path(@book.id)
+        # redirect_to "/books/#{@book.id}"
+        else
+        @books = Book.all
+        flash[:notice] = ' errors prohibited this obj from being saved:'
+        render "index"
+        end
+	end
 
 
     def update
