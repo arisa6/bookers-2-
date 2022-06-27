@@ -8,5 +8,6 @@ Rails.application.routes.draw do
    get 'users' => 'users#index'
    get 'home/about' => 'homes#about'
    delete '/books' => 'books#destroy'
+   
 
 end

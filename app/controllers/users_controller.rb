@@ -43,7 +43,7 @@ class UsersController < ApplicationController
         # redirect_to "/books/#{@book.id}"
         else
         @books = Book.all
-        flash[:notice] = ' errors prohibited this obj from being saved:'
+        flash[:notice] = 'errors prohibited this obj from being saved:'
         render "index"
         end
 	end
@@ -82,4 +82,7 @@ class UsersController < ApplicationController
         redirect_to user_path(current_user.id)
      end
     end
+    
+    
+    
 end
